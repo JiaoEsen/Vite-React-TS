@@ -8,7 +8,7 @@ import {
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Breadcrumb, Layout, Menu, theme } from "antd";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -29,13 +29,9 @@ function getItem(
 }
 
 const items: MenuItem[] = [
-  getItem("Option 1", "1", <PieChartOutlined />),
-  getItem("Option 2", "2", <DesktopOutlined />),
-  getItem("User", "sub1", <UserOutlined />, [
-    getItem("Tom", "3"),
-    getItem("Bill", "4"),
-    getItem("Alex", "5"),
-  ]),
+  getItem("Page1", "/page1", <PieChartOutlined />),
+  getItem("Page2", "/page2", <DesktopOutlined />),
+  getItem("Page3", "/page3", <UserOutlined />),
   getItem("Team", "sub2", <TeamOutlined />, [
     getItem("Team 1", "6"),
     getItem("Team 2", "8"),
@@ -46,8 +42,11 @@ const items: MenuItem[] = [
 const App: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
 
-  const menuClick = (evt) => {
+  const navigateTo = useNavigate();
+
+  const menuClick = (evt: { key: string }) => {
     console.log(evt);
+    navigateTo(evt.key);
   };
 
   return (
@@ -59,14 +58,16 @@ const App: React.FC = () => {
       >
         <div
           style={{
-            height: 32,
+            lineHeight: '32px',
             margin: 16,
+            color: '#fff',
+            textAlign: 'center',
             background: "rgba(255, 255, 255, 0.2)",
           }}
-        />
+        >JiaoYsen</div>
         <Menu
           theme="dark"
-          defaultSelectedKeys={["1"]}
+          defaultSelectedKeys={["0"]}
           mode="inline"
           items={items}
           onClick={menuClick}
@@ -82,9 +83,9 @@ const App: React.FC = () => {
         <Content style={{ margin: "16px 16px" }}>
           <Outlet />
         </Content>
-        <Footer style={{ textAlign: "center" }}>
+        {/* <Footer style={{ textAlign: "center" }}>
           Ant Design ©2023 Created by Ant UED
-        </Footer>
+        </Footer> */}
       </Layout>
     </Layout>
   );
